@@ -1,0 +1,164 @@
+﻿@using LUFrontEnd.Models
+@model LUFrontEnd.Models.LUModel
+
+@{
+    Layout = null;
+}
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<html>
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="~/css/LUStyle.css" rel="stylesheet">
+    <title>LU Front End</title>
+</head>
+<body id="LoginForm">
+    <div class="container">
+        <div class="login-form">
+            <div class="main-div">
+                <div class="panel">
+                    <h2>Request More Information</h2>
+                </div>
+                <br />
+                <form name="myForm" onsubmit="return validate()" method="post">
+                    <div class="form-group">
+                        <div class="text-left">
+                            @Html.Label("What degree type would you like?*")
+                        </div>
+                        @Html.DropDownList("DegreeType", null, new { name = "degreeType", id = "degreeType", @class = "form-control" })
+                        <label class="val" id="degreeVal"></label>
+                    </div>
+                    <div class="form-group">
+                        <div class="text-left">
+                            @Html.Label("What would you like to study?*")
+                        </div>
+                        @Html.DropDownList("StudyType", null, new { name = "studyType", id = "studyType", @class = "form-control", @disabled = "true" })
+                        <label class="val" id="studyVal"></label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name*" })
+                                <label class="val" id="firstVal"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name*" })
+                                <label class="val" id="lastVal"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "E-Mail*" })
+                        <label class="val" id="emailVal"></label>
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", placeholder = "Telephone*" })
+                        <label class="val" id="phoneVal"></label>
+                    </div>
+                    <div class="form-group">
+                        <div class="text-right">
+                            @Html.ActionLink("Apt., P.O. box, or don't see your address?", "Contact")
+                        </div>
+                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control", placeholder = "Address*" })
+                        <label class="val" id="addressVal"></label>
+                    </div>
+                    <br />
+                    <button class="btn btn-primary button" type="button">Tell Me More</button>
+                    <br />
+                    <br />
+                    <p class="terms text-left">
+                        By submitting contact information through this form. I agree the Liberty University and its affiliates may call and/or text me about its offereings by and phone number
+                        I have provided and may provide in the future, including any wireless number, using automated technology.
+                    </p>
+                    <p class="terms text-left">
+                        Message and data rates may apply. For additional information, text HELP to 49595 or 49596. You may opt-out at any time by sending STOP to 49595 or 49596. Visit
+                        for <a href="http://www.liberty.edu/informationservices/index.cfm?PID=31265">Terms & Conditions</a> and <a href="http://www.liberty.edu/informationservices/index.cfm?PID=31265">Privacy Policy</a>
+                    </p>
+                    <div class="text-center">OR</div>
+                    <br />
+                    <button class="btn btn-success button" type="button">Apply Now</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+            $('.button').click(function (e) {
+
+                e.preventDefault();
+
+                var x = document.forms["myForm"]["degreeType"].value;
+                if (x === "Select") {
+                    $("#degreeVal").text("Please select a degree type");
+                }
+                else {
+                    $("#degreeVal").text("");
+                }
+
+                x = document.forms["myForm"]["studyType"].value;
+                if (x === "Select a degree type") {
+                    $("#studyVal").text("Please select a study type");
+                }
+                else {
+                    $("#studyVal").text("");
+                }
+
+                x = document.forms["myForm"]["FirstName"].value;
+                if (x === "") {
+                    $("#firstVal").text("Please enter your first name");
+                }
+                else {
+                    $("#firstVal").text("");
+                }
+
+                x = document.forms["myForm"]["LastName"].value;
+                if (x === "") {
+                    $("#lastVal").text("Please enter your last name");
+                }
+                else {
+                    $("#lastVal").text("");
+                }
+
+                x = document.forms["myForm"]["Email"].value;
+                if (x === "") {
+                    $("#emailVal").text("Please enter your e-mail");
+                }
+                else {
+                    $("#emailVal").text("");
+                }
+
+                x = document.forms["myForm"]["Phone"].value;
+                if (x === "") {
+                    $("#phoneVal").text("Please enter your telephone number");
+                }
+                else {
+                    $("#phoneVal").text("");
+                }
+
+                x = document.forms["myForm"]["Address"].value;
+                if (x === "") {
+                    $("#addressVal").text("Please enter your address");
+                }
+                else {
+                    $("#addressVal").text("");
+                }
+            });
+        });
+
+        $("#degreeType").on("change", function () {
+            $("#studyType").prop("disabled", false);
+            $("#studyType option[value='Select a degree type']").remove();
+            $("#degreeType option[value='Select']").remove();
+        });
+    </script>
+</body>
+</html>
